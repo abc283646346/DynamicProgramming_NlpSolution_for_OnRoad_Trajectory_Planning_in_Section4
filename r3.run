@@ -1,0 +1,49 @@
+reset;
+model C3.mod;
+include initial_guess1.INIVAL;
+option solver ipopt;
+solve;
+shell ("del " & ("x.txt"));
+shell ("del " & ("y.txt"));
+shell ("del " & ("theta.txt"));
+shell ("del " & ("phy.txt"));
+shell ("del " & ("a.txt"));
+shell ("del " & ("v.txt"));
+shell ("del " & ("w.txt"));
+	for {i in I} {
+		printf "%5.4f;", x[i]>>("x.txt");
+		printf "%5.4f;", y[i]>>("y.txt");
+		printf "%5.4f;", theta[i]>>("theta.txt");
+		printf "%5.4f;", phy[i]>>("phy.txt");
+		printf "%5.4f;", a[i]>>("a.txt");
+		printf "%5.4f;", v[i]>>("v.txt");
+		printf "%5.4f;", w[i]>>("w.txt");
+	}
+close ("x.txt");
+close ("y.txt");
+close ("theta.txt");
+close ("v.txt");
+close ("a.txt");
+close ("phy.txt");
+close ("w.txt");
+
+shell ("del " & ("initial_guess1.INIVAL"));
+	for {i in I} {
+		printf "let x[%d]:=%5.3f;\n",i, x[i]>>("initial_guess1.INIVAL");
+		printf "let y[%d]:=%5.3f;\n",i, y[i]>>("initial_guess1.INIVAL");	
+		printf "let xr[%d]:=%5.3f;\n", i, xr[i]>>("initial_guess1.INIVAL");
+		printf "let yr[%d]:=%5.3f;\n", i, yr[i]>>("initial_guess1.INIVAL");
+		printf "let xf[%d]:=%5.3f;\n", i, xf[i]>>("initial_guess1.INIVAL");
+		printf "let yf[%d]:=%5.3f;\n", i, yf[i]>>("initial_guess1.INIVAL");			
+		printf "let theta[%d]:=%5.3f;\n",i, theta[i]>>("initial_guess1.INIVAL");
+		printf "let v[%d]:=%5.3f;\n",i, v[i]>>("initial_guess1.INIVAL");
+		printf "let a[%d]:=%5.3f;\n",i, a[i]>>("initial_guess1.INIVAL");
+		printf "let phy[%d]:=%5.3f;\n",i, phy[i]>>("initial_guess1.INIVAL");		
+		printf "let w[%d]:=%5.3f;\n",i, w[i]>>("initial_guess1.INIVAL");
+		for {j in {1..4}} {
+			for {m in {1..2}} {
+				printf "let egoV[%d,%d,%d]:=%5.3f;\n", i,j,m,egoV[i,j,m]>>("initial_guess1.INIVAL");
+			}
+		}
+	}
+close ("initial_guess1.INIVAL");
